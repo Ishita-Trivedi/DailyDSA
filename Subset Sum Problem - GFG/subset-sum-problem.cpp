@@ -18,8 +18,20 @@ public:
         return dp[i][sum]=take||ntake;
     }
     bool isSubsetSum(vector<int>arr, int sum){
-        vector<vector<int>>dp(arr.size(),vector<int>(sum,-1));
-       return helper(0,0,sum,arr,dp);
+        vector<vector<int>>dp(arr.size()+1,vector<int>(sum+1,0));
+        for(int i=0;i<arr.size()+1;i++)
+        dp[i][0]=1;
+        dp[0][0]=1;//empty and sum=0
+        for(int i=1;i<arr.size()+1;i++){
+            for(int target=1;target<sum+1;target++){
+                bool take=0;
+               if(target-arr[i-1]>=0)
+               take=dp[i-1][target-arr[i-1]];
+               bool ntake=dp[i-1][target];
+               dp[i][target]=take||ntake;
+            }
+        }
+       return dp[arr.size()][sum];
     }
 };
 

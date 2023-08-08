@@ -9,21 +9,21 @@ class Solution{
 	const int mod = static_cast<int>(1e9 + 7);
 	int perfectSum(int arr[], int n, int sum)
 	{
-	    vector<vector<int>> dp(n + 1, vector<int>(sum + 1, 0));
-	    for(int i=0;i<=n;i++)
-        dp[i][0]=1;
+	    vector<int>prev(sum + 1, 0);
+	    prev[0]=1;
     for (int i = 1; i <=n; i++) {
-        for (int target = 0; target <= sum; target++) { // Add increment statement
-           
+        vector<int>curr(sum + 1, 0);
+        for (int target = 0; target <= sum; target++) { 
             int take = 0;
             if (target - arr[i-1] >= 0)
-                take = (dp[i - 1][target - arr[i-1]]) % mod;
-            int ntake = (dp[i - 1][target]) % mod;
-            dp[i][target] = (take + ntake) % mod;
+                take = (prev[target - arr[i-1]]) % mod;
+            int ntake = (prev[target]) % mod;
+            curr[target] = (take + ntake) % mod;
             
         }
+        prev=curr;
     }
-    return dp[n ][sum];
+    return prev[sum];
 	}
 	  
 };

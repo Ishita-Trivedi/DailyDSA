@@ -136,14 +136,14 @@ void printCorner(Node *root)
     q.push(root);
     while(!q.empty()){
         int s=q.size();
-        for(int i=1;i<=s;i++){
-            Node* n=q.front();q.pop();
-            if(i==1||i==s)
-            cout<<n->data<<" ";
-            if(n->left)
-            q.push(n->left);
-            if(n->right)
-            q.push(n->right);
+        for(int j=1;j<=s;j++){
+            Node* nd=q.front();q.pop();
+            if(j==1||j==s)
+            cout<<nd->data<<" ";
+            if(nd->left)
+            q.push(nd->left);
+            if(nd->right)
+            q.push(nd->right);
         }
     }
 }

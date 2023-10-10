@@ -10,15 +10,14 @@ class Solution {
         vector<int>bfs;
         int vis[V]={0};
         queue<int>q;
-        q.push(0);
+        q.push(0);vis[0]=1;
         while(!q.empty()){
             int n=q.front();q.pop();
-            if(!vis[n]){
-                bfs.push_back(n);vis[n]=1;
+                bfs.push_back(n);
                 for(auto it:adj[n]){
-                    if(!vis[it])q.push(it);
+                    if(!vis[it]){vis[it]=1;q.push(it);}
                 }
-            }
+            
         }
         return bfs;
     }

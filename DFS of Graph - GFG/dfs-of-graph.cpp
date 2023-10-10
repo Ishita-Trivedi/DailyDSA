@@ -5,18 +5,18 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    void traverse(int start,int visited[],vector<int>adj[],vector<int>&dfs){
-        visited[start]=1;
-        dfs.push_back(start);
+    // Function to return a list containing the DFS traversal of the graph.
+    void traverse(int start,vector<int>&dfs,int vis[],vector<int> adj[]){
+        dfs.push_back(start);vis[start]=1;
         for(auto it:adj[start]){
-            if(!visited[it])
-            traverse(it,visited,adj,dfs);
+            if(!vis[it])
+            traverse(it,dfs,vis,adj);
         }
     }
     vector<int> dfsOfGraph(int V, vector<int> adj[]) {
         vector<int>dfs;
-        int visited[V]={0};
-        traverse(0,visited,adj,dfs);
+        int vis[V]={0};
+        traverse(0,dfs,vis,adj);
         return dfs;
     }
 };

@@ -4,29 +4,27 @@ using namespace std;
 
 // } Driver Code Ends
 class Solution {
-  public:
-    bool detect(int src,vector<int>adj[],int vis[]){
-        vis[src]=1;
-        queue<pair<int,int>>q;q.push({src,-1});
-        while(!q.empty()){
-            int node=q.front().first,parent=q.front().second;q.pop();
-            for(auto adjNode:adj[node]){
-                if(!vis[adjNode]){
-                    vis[adjNode]=1;q.push({adjNode,node});
-                }
-                else if(parent!=adjNode)return true;
+    private:
+    bool detect(int start,int parent,int vis[],vector<int>adj[]){
+        vis[start]=1;
+        for(int adjNode:adj[start]){
+            if(!vis[adjNode]){
+                if(detect(adjNode,start,vis,adj))return true;
             }
+            else if(parent!=adjNode)return true;
         }
         return false;
     }
+  public:
     bool isCycle(int V, vector<int> adj[]) {
-      int vis[V]={0};
-      for(int i=0;i<V;i++){
-          if(!vis[i]){
-              if(detect(i,adj,vis))return true;
-          }
-      }
-      return false;
+        //since it has connected components so we need to traverse atleast once
+        int vis[V]={0};
+        for(int i=0;i<V;i++){
+            if(!vis[i]){
+                if(detect(i,-1,vis,adj))return true;
+            }
+        }
+        return false;
     }
 };
 

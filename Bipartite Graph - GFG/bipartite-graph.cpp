@@ -6,25 +6,22 @@ using namespace std;
 
 class Solution {
 public:
-    bool bfs(queue<int>&q,vector<int>&vis, vector<int>adj[]){
-        while(!q.empty()){
-            int n=q.front();q.pop();
-            for(int x:adj[n]){
-                if(vis[x]==-1){
-                    vis[x]=!vis[n];q.push(x);
-                }
-                else if(vis[x]==vis[n])return false;
+    bool dfs(int start,vector<int>&vis, vector<int>adj[]){
+        for(int x:adj[start]){
+            if(vis[x]==-1){
+                vis[x]=!vis[start];
+                if(!dfs(x,vis,adj))return false;
             }
+            else if(vis[x]==vis[start])return false;
         }
         return true;
     }
 	bool isBipartite(int V, vector<int>adj[]){
 	    vector<int>vis(V,-1);
-	    queue<int>q;
 	    for(int i=0;i<V;i++){
 	        if(vis[i]==-1){
-	            q.push(i);vis[i]=0;
-	            if(!bfs(q,vis,adj))return false;
+	            vis[i]=0;
+	            if(!dfs(i,vis,adj))return false;
 	        }
 	    }
 	    return true;

@@ -10,26 +10,31 @@ using namespace std;
 
 class Solution {
     private:
-    bool dfs(int start,int vis[],int path[],vector<int> adj[],vector<int>&ans){
+    bool dfs(int start,int vis[],int path[],int check[],vector<int> adj[]){
         vis[start]=1;path[start]=1;
         for(int x:adj[start]){
             if(!vis[x]){
-                if(!dfs(x,vis,path,adj,ans))return false;
+                if(!dfs(x,vis,path,check,adj))return false;
             }
-            else if(path[x]) return false;
+            else if(path[x]) return false;//had an outgoing and came back from it so path =1
         }
-        ans.push_back(start);path[start]=0;
+        
+        check[start]=1;path[start]=0;
         return true;
     }
   public:
     vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
-        vector<int>ans;int vis[V]={0};int path[V]={0};
+        int check[V]={0};int vis[V]={0};int path[V]={0};
+        vector<int>ans;
         for(int i=0;i<V;i++){
             if(!vis[i]){
-               bool t= dfs(i,vis,path,adj,ans);
+               bool t= dfs(i,vis,path,check,adj);
             }
         }
-        sort(ans.begin(),ans.end());
+        for(int i=0;i<V;i++){//prevents sorting of the elements
+            if(check[i]==1)
+            ans.push_back(i);
+        }
         return ans;
     }
 };

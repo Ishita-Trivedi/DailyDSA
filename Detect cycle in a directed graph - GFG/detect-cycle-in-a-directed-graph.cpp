@@ -5,28 +5,28 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    // Function to detect cycle in a directed graph.
-    bool dfs(int start,int vis[],int path[],vector<int> adj[]){
-        vis[start]=1;
-        path[start]=1;
-        for(int x:adj[start]){
-            if(!vis[x]){
-                if(dfs(x,vis,path,adj))return true;
-            }
-            else if (path[x])return true;//as vis[x] and pathVis[x] both true
-        }
-        path[start]=0;
-        return false;
-    }
+    // Function to detect cycle in a directed graph using topo Sort
     bool isCyclic(int V, vector<int> adj[]) {
-        int vis[V]={0};
-        int path[V]={0};
+        vector<int>topo;
+        int indeg[V]={0};
         for(int i=0;i<V;i++){
-            if(!vis[i]){
-            if(dfs(i,vis,path,adj))return true;
+            for(int x:adj[i])
+            indeg[x]++;
+        }
+        queue<int>q;
+        for(int i=0;i<V;i++){
+            if(indeg[i]==0)
+            q.push(i);
+        }
+        while(!q.empty()){
+            int n=q.front();q.pop();
+            topo.push_back(n);
+            for(int x:adj[n]){
+                if(--indeg[x]==0)
+                q.push(x);
             }
         }
-        return false;
+        return !(topo.size()==V);//if equal to V then no cycle so false
     }
 };
 

@@ -9,31 +9,25 @@ using namespace std;
 // User function Template for C++
 
 class Solution {
-    private:
-    bool dfs(int start,int vis[],int path[],int check[],vector<int> adj[]){
+  public:
+    bool dfs(int start,int vis[],int path[],int check[],vector<int>adj[]){
         vis[start]=1;path[start]=1;
         for(int x:adj[start]){
-            if(!vis[x]){
-                if(!dfs(x,vis,path,check,adj))return false;
-            }
-            else if(path[x]) return false;//had an outgoing and came back from it so path =1
+            if(!vis[x]&&!path[x])if(!dfs(x,vis,path,check,adj))return false;
+            if(path[x])return false;
         }
-        
-        check[start]=1;path[start]=0;
+        path[start]=0;check[start]=1;
         return true;
     }
-  public:
     vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
-        int check[V]={0};int vis[V]={0};int path[V]={0};
         vector<int>ans;
+        int check[V]={0};int vis[V]={0};int path[V]={0};
         for(int i=0;i<V;i++){
-            if(!vis[i]){
-               bool t= dfs(i,vis,path,check,adj);
-            }
+            if(!vis[i])
+            dfs(i,vis,path,check,adj);
         }
-        for(int i=0;i<V;i++){//prevents sorting of the elements
-            if(check[i]==1)
-            ans.push_back(i);
+        for(int i=0;i<V;i++){
+            if(check[i])ans.push_back(i);
         }
         return ans;
     }

@@ -9,19 +9,19 @@ using namespace std;
 
 class Solution{
 public:
-    int helper(int i,int w,int val[],int wt[],vector<vector<int>>&dp){
-        if(i<0||w<0)return 0;
-        if(dp[i][w]!=-1)return dp[i][w];
-        int take=0,ntake=0;
-        if(wt[i]<=w)
-        take=val[i]+helper(i,w-wt[i],val,wt,dp);
-        ntake=helper(i-1,w,val,wt,dp);
-        return dp[i][w]=max(take,ntake);
-    }
     int knapSack(int N, int W, int val[], int wt[])
     {
-        vector<vector<int>>dp(N,vector<int>(W+1,-1));
-        helper(N-1,W,val,wt,dp);
+        vector<vector<int>>dp(N,vector<int>(W+1,0));
+        for(int i=0;i<N;i++){
+            for(int w=1;w<=W;w++){
+                int take=0,ntake=0;
+                if(wt[i]<=w)
+                take=val[i]+dp[i][w-wt[i]];
+                if(i>=1)
+                ntake=dp[i-1][w];
+                dp[i][w]=max(take,ntake);
+            }
+        }
         return dp[N-1][W];
     }
 };

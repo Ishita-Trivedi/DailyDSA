@@ -10,26 +10,27 @@ using namespace std;
 
 class Solution {
   public:
-    bool dfs(int start,int vis[],int path[],int check[],vector<int>adj[]){
-        vis[start]=1;path[start]=1;
-        for(int x:adj[start]){
-            if(!vis[x]&&!path[x])if(!dfs(x,vis,path,check,adj))return false;
-            if(path[x])return false;
-        }
-        path[start]=0;check[start]=1;
-        return true;
-    }
     vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
-        vector<int>ans;
-        int check[V]={0};int vis[V]={0};int path[V]={0};
-        for(int i=0;i<V;i++){
-            if(!vis[i])
-            dfs(i,vis,path,check,adj);
+    vector<int>ans;
+    vector<int>adjrev[V];
+    int indeg[V]={0};
+    for(int i=0;i<V;i++){
+        for(int x:adj[i])
+        {adjrev[x].push_back(i);indeg[i]++;}
+    }
+    queue<int>q;
+    for(int i=0;i<V;i++){
+        if(indeg[i]==0)q.push(i);
+    }
+    while(!q.empty()){
+        int n=q.front();q.pop();
+        ans.push_back(n);
+        for(int x:adjrev[n]){
+            if(--indeg[x]==0)q.push(x);
         }
-        for(int i=0;i<V;i++){
-            if(check[i])ans.push_back(i);
-        }
-        return ans;
+    }
+    sort(ans.begin(),ans.end());
+    return ans;
     }
 };
 

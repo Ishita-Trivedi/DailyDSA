@@ -3,6 +3,7 @@
 using namespace std;
 
 // } Driver Code Ends
+
 class Solution
 {
 	public:
@@ -11,17 +12,21 @@ class Solution
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
         vector<int>dist(V,INT_MAX);dist[S]=0;
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minheap;
-        minheap.push({0,S});//dist + node
-        while(!minheap.empty()){
-            auto x=minheap.top();minheap.pop();
-            int dis=x.first,u=x.second;
+       set<pair<int,int>>st;
+       st.insert({0,S});//dis,node
+        while(!st.empty()){
+            auto it=*(st.begin());
+            int dis=it.first,u=it.second;
+            st.erase(it);
             for(auto vec:adj[u]){
-                int v=vec[0],wt=vec[1];
-                if((dis+wt)<dist[v])
-                {
-                    dist[v]=dis+wt;
-                    minheap.push({dist[v],v});
+                int v=vec[0],wt=vec[1],val=dis+wt;
+                if(val<dist[v]){
+                    //erase the previousif not reached before
+                    if(dist[v]!=INT_MAX)
+                    st.erase({dist[v],v});
+                    //update
+                    dist[v]=val;
+                    st.insert({val,v});
                 }
             }
         }

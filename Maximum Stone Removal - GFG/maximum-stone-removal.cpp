@@ -48,7 +48,7 @@ class Solution {
            maxRow=max(maxRow,vec[0]);
            maxCol=max(maxCol,vec[1]);
        }
-       DisjointSet ds(maxRow+maxCol+2);//total nodes for ds
+       DisjointSet ds(maxRow+maxCol+1);//total nodes for ds
        //connect each row and col for every stone
        //also store the node1 and node2 having the stone
        unordered_map<int,int>nodes;

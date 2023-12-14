@@ -12,30 +12,22 @@ class Solution{
     //railway station such that no train waits.
     int findPlatform(int arr[], int dep[], int n)
     {
-        vector<pair<int,int>>store;
-        for(int i=0;i<n;i++)
-        store.push_back({arr[i],dep[i]});
-        sort(store.begin(),store.end());
-        priority_queue<int,vector<int>,greater<int>>pq;
-        int count=0;
-        for(int i=0;i<n;i++){
-            auto x=store[i];
-            int s=x.first,e=x.second;
-            if(!pq.empty()){
-                int t=pq.top();
-                if(s>t){//not overlap
-                    while(!pq.empty()&&pq.top()<s)
-                    pq.pop();
-                }
-                pq.push(e);
+        sort(arr,arr+n);
+        sort(dep,dep+n);
+        int i=1,j=0,maxi=1,platforms=1;
+        while(i<n&&j<n){
+            if(arr[i]<=dep[j]){
+                platforms++;
+                i++;
             }
             else{
-                pq.push(e);
+                platforms--;
+                j++;
             }
-            count = max(count, static_cast<int>(pq.size()));
+            maxi=max(maxi,platforms);
         }
-        return count;
-    } 
+        return maxi;
+    }
 };
 
 

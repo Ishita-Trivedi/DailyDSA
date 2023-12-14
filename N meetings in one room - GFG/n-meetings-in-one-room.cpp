@@ -10,18 +10,16 @@ class Solution
     //be performed in a meeting room.
     int maxMeetings(int start[], int end[], int n)
     {
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-        int count=0;
+        vector<pair<int,int>>vec;
         for(int i=0;i<n;i++){
-            pq.push({end[i],start[i]});
+            vec.push_back({end[i],start[i]});
         }
-        auto curr=pq.top();pq.pop();
-        int pe=curr.first;count=1;
-        while(!pq.empty()){
-            curr=pq.top();pq.pop();
-            if(curr.second>pe){
-                count++;
-                pe=curr.first;
+        sort(vec.begin(),vec.end());
+        int count=0,s=0,e=0;
+        for(auto p:vec){
+            int s2=p.second,e2=p.first;
+            if(s2>e){
+                s=s2;e=e2;count++;
             }
         }
         return count;

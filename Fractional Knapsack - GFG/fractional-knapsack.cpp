@@ -24,24 +24,18 @@ class Solution
     //Function to get the maximum total value in the knapsack.
     double fractionalKnapsack(int W, Item arr[], int n)
     {
-        double ans=0;
-        priority_queue<pair<double,int>>pq;
-        for (int i = 0; i < n; i++){
-            double val=arr[i].value,wt=arr[i].weight;
-            pq.push({val/wt,wt});//value per weight is pushed
-        }
-        while(W&&!pq.empty()){
-            auto x=pq.top();pq.pop();
-            if(x.second<=W){
-                W-=x.second;
-                ans+=x.second*x.first;
-            }
-            else{
-                ans+=x.first*W;
-                W=0;
+        sort(arr,arr+n,[](Item a,Item b){return (double)a.value/(double)(a.weight)>(double)b.value/(double)(b.weight);});
+        double cost=0;
+        for(int i=0;i<n;i++){
+            int val=arr[i].value,wt=arr[i].weight;
+            if(wt<=W){
+                W-=wt;
+                cost+=val;
+            }else{
+                cost+=(double)(val*W)/(double)wt;break;
             }
         }
-        return ans;
+        return cost;
     }
         
 };
